@@ -86,13 +86,15 @@ def fetchpage(pageN):
 
 
 def fetchAllTorrents(totPage):
+    print("Fetching all torrent info. It will take several hours!")
+    time.sleep(1)
     fff = open("wtf.txt", "w+")
     fff.write(" ")
     fff.close()
     for i in range(totPage):
         print('fetching ' + str(i) + "/" + str(totPage) + "\n")
         fetchpage(i)
-        time.sleep(.5)
+        time.sleep(.3)
 
     print("Done fetching")
 
@@ -115,7 +117,7 @@ def startThanking():
         dfl.write(str(done))
         dfl.close()
         thank(tid)
-        time.sleep(3)
+        time.sleep(.8)
 
 
 def Cont():
