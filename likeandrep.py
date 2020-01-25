@@ -156,6 +156,12 @@ else:
     dt = open("details.txt", "w+")
     dt.write(cook + "^" + agent + "^" + uid)
     dt.close()
+    print("Infos added...")
+    print("Strating torrents fetching...")
+    time.sleep(1)
+    fetchAllTorrents(16000)
+    print("Starting Thanking ;p ")
+    time.sleep(.5)
     Cont()
 
 
