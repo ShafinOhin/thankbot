@@ -10,6 +10,18 @@ agent = ' '
 uid = ' '
 
 
+def setcookies():
+    global cook, agent, uid, cook2
+    dt = open("details.txt", "r")
+    dtstr = dt.read()
+    dtlst = dtstr.split("^")
+    cook = dtlst[0]
+    agent = dtlst[1]
+    uid = dtlst[2]
+    cook2 = 'hideShoutbox=1; ' + cook
+    dt.close()
+
+
 def thank(trid):
     global cook, cook2, agent, uid
     urlthank = "https://www.torrentbd.net/torrent/ajthank.php"
@@ -63,7 +75,7 @@ def fetchpage(pageN):
             'Content-Length': str(cntLen),
             'Origin': 'https://www.torrentbd.net',
             'Connection': 'keep-alive',
-            'Referer': "https://www.torrentbd.net/torrent/index.php?initK&all",
+            'Referer': "https://www.torrentbd.net/torrent/",
             'Cookie': cook2,
             'TE': 'Trailers',
         }
@@ -72,7 +84,7 @@ def fetchpage(pageN):
         'page': str(pageN),
         'kuddus_searchtype': 'torrents',
         'kuddus_searchkey': '',
-        'searchParams[sortBy]':'',
+        'searchParams[sortBy]': '',
         'searchParams[special_filters]': 'all_torrent',
         'searchParams[secondary_filters_extended]': '',
     }
@@ -84,6 +96,7 @@ def fetchpage(pageN):
         while resp.find("torrents-details.php?id=") != -1:
             resp = resp[resp.find("torrents-details.php?id=")+24:]
             iid = resp[:resp.find("&amp;")]
+            print(iid)
             ff.write(str(iid) + ' ')
 
         ff.close()
@@ -95,6 +108,7 @@ def fetchpage(pageN):
 
 
 def fetchAllTorrents(totPage):
+    setcookies()
     print("Fetching all torrent info. It will take several hours!")
     time.sleep(1)
     fff = open("wtf.txt", "w+")
@@ -106,7 +120,7 @@ def fetchAllTorrents(totPage):
         rres = fetchpage(i)
         if rres:
             i += 1
-        time.sleep(.3)
+        time.sleep(3)
 
     print("Done fetching")
 
@@ -133,13 +147,7 @@ def startThanking():
 
 
 def Cont():
-    global cook, agent, uid
-    dt = open("details.txt", "r")
-    dtstr = dt.read()
-    dtlst = dtstr.split("^")
-    cook = dtlst[0]
-    agent = dtlst[1]
-    uid = dtlst[2]
+    setcookies()
     print("Continuing with: ")
     print(cook + "\n" + agent + "\n" + uid)
     startThanking()
@@ -153,30 +161,36 @@ xx = input()
 if xx == 'y' or xx == 'Y':
     Cont()
 else:
-    print("\nEnter cookie (copy and pase): \n")
+    print("Start Fetching?? (y/n) \n")
+    xy = input()
+    if xy == 'y':
+        fetchAllTorrents(16000)
+        Cont()
+    else:
+        print("\nEnter cookie (copy and pase): \n")
 
-    cook = input()
+        cook = input()
 
-    print("\n Enter user Agent : \n" )
+        print("\n Enter user Agent : \n" )
 
-    agent = input()
+        agent = input()
 
-    print()
+        print()
 
-    print("\n Enter uid: \n")
+        print("\n Enter uid: \n")
 
-    uid = input()
+        uid = input()
 
-    dt = open("details.txt", "w+")
-    dt.write(cook + "^" + agent + "^" + uid)
-    dt.close()
-    print("Infos added...")
-    print("Strating torrents fetching...")
-    time.sleep(1)
-    fetchAllTorrents(16000)
-    print("Starting Thanking ;p ")
-    time.sleep(.5)
-    Cont()
+        dt = open("details.txt", "w+")
+        dt.write(cook + "^" + agent + "^" + uid)
+        dt.close()
+        print("Infos added...")
+        print("Strating torrents fetching...")
+        time.sleep(1)
+        fetchAllTorrents(16000)
+        print("Starting Thanking ;p ")
+        time.sleep(.5)
+        Cont()
 
 
 
