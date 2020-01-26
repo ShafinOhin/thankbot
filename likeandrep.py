@@ -38,8 +38,12 @@ def thank(trid):
         'i': str(trid),
     }
 
-    r = requests.post(urlthank, headers=headerss, data=datas)
-    rr  = requests.post(urlrep, headers=headerss, data=datas)
+    try:
+        r = requests.post(urlthank, headers=headerss, data=datas)
+        rr = requests.post(urlrep, headers=headerss, data=datas)
+    except:
+        print("Failed due to Network problem, retrying...")
+        time.sleep(1)
 
 
 
@@ -130,6 +134,8 @@ def Cont():
     uid = dtlst[2]
     print("Continuing with: ")
     print(cook + "\n" + agent + "\n" + uid)
+    startThanking()
+
 
 
 
