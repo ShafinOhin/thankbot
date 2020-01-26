@@ -96,7 +96,7 @@ def fetchpage(pageN):
         while resp.find("torrents-details.php?id=") != -1:
             resp = resp[resp.find("torrents-details.php?id=")+24:]
             iid = resp[:resp.find("&amp;")]
-            print(iid)
+            
             ff.write(str(iid) + ' ')
 
         ff.close()
