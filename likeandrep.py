@@ -87,9 +87,11 @@ def fetchpage(pageN):
             ff.write(str(iid) + ' ')
 
         ff.close()
+        return True
     except:
         print("May be network problem, or you are banned. Retrying :)...")
         time.sleep(1)
+        return False
 
 
 def fetchAllTorrents(totPage):
@@ -98,9 +100,12 @@ def fetchAllTorrents(totPage):
     fff = open("wtf.txt", "w+")
     fff.write(" ")
     fff.close()
-    for i in range(totPage):
+    i = 1
+    while i < totPage:
         print('fetching ' + str(i) + "/" + str(totPage) + "\n")
-        fetchpage(i)
+        rres = fetchpage(i)
+        if rres:
+            i += 1
         time.sleep(.3)
 
     print("Done fetching")
