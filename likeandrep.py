@@ -76,17 +76,20 @@ def fetchpage(pageN):
         'searchParams[special_filters]': 'all_torrent',
         'searchParams[secondary_filters_extended]': '',
     }
+    try:
+        sr = requests.post(urlsearch, headers=headerss, data=datas)
+        resp = sr.text
 
-    sr = requests.post(urlsearch, headers=headerss, data=datas)
-    resp = sr.text
+        ff = open("wtf.txt", "a+")
+        while resp.find("torrents-details.php?id=") != -1:
+            resp = resp[resp.find("torrents-details.php?id=")+24:]
+            iid = resp[:resp.find("&amp;")]
+            ff.write(str(iid) + ' ')
 
-    ff = open("wtf.txt", "a+")
-    while resp.find("torrents-details.php?id=") != -1:
-        resp = resp[resp.find("torrents-details.php?id=")+24:]
-        iid = resp[:resp.find("&amp;")]
-        ff.write(str(iid) + ' ')
-
-    ff.close()
+        ff.close()
+    except:
+        print("May be network problem, or you are banned. Retrying :)...")
+        time.sleep(1)
 
 
 def fetchAllTorrents(totPage):
