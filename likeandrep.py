@@ -3,7 +3,6 @@ import random
 import requests
 import time
 
-
 cook = ' '
 cook2 = 'hideShoutbox=1; ' + cook
 agent = ' '
@@ -58,27 +57,26 @@ def thank(trid):
         time.sleep(1)
 
 
-
 def fetchpage(pageN):
     global cook, cook2, agent, uid
     urlsearch = "https://www.torrentbd.net/torrent/ajsearch.php"
     cntLen = len(str(pageN)) + 168
 
     headerss = {
-            'Host': 'www.torrentbd.net',
-            'User-Agent': agent,
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Length': str(cntLen),
-            'Origin': 'https://www.torrentbd.net',
-            'Connection': 'keep-alive',
-            'Referer': "https://www.torrentbd.net/torrent/",
-            'Cookie': cook2,
-            'TE': 'Trailers',
-        }
+        'Host': 'www.torrentbd.net',
+        'User-Agent': agent,
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Length': str(cntLen),
+        'Origin': 'https://www.torrentbd.net',
+        'Connection': 'keep-alive',
+        'Referer': "https://www.torrentbd.net/torrent/",
+        'Cookie': cook2,
+        'TE': 'Trailers',
+    }
 
     datas = {
         'page': str(pageN),
@@ -94,9 +92,9 @@ def fetchpage(pageN):
 
         ff = open("wtf.txt", "a+")
         while resp.find("torrents-details.php?id=") != -1:
-            resp = resp[resp.find("torrents-details.php?id=")+24:]
+            resp = resp[resp.find("torrents-details.php?id=") + 24:]
             iid = resp[:resp.find("&amp;")]
-            
+
             ff.write(str(iid) + ' ')
 
         ff.close()
@@ -112,7 +110,6 @@ def fetchAllTorrents(totPage):
     print("Fetching all torrent info. It will take several hours!")
     time.sleep(1)
     fff = open("wtf.txt", "w+")
-    fff.write(" ")
     fff.close()
     i = 1
     while i < totPage:
@@ -129,17 +126,16 @@ def startThanking():
     dfl = open("done.txt", "r")
     done = int(dfl.read())
     dfl.close()
-    fl = open("wtf.txt" , "r")
+    fl = open("wtf.txt", "r")
     vv = fl.read()
     fl.close()
     trlist = vv.split(' ')
 
-
     while done != len(trlist):
-        dfl = open("done.txt", "w+")
         print("Thanking " + str(done) + "/" + str(len(trlist)) + "\n")
         tid = int(trlist[done])
         done += 1
+        dfl = open("done.txt", "w+")
         dfl.write(str(done))
         dfl.close()
         thank(tid)
@@ -151,8 +147,6 @@ def Cont():
     print("Continuing with: ")
     print(cook + "\n" + agent + "\n" + uid)
     startThanking()
-
-
 
 
 print("Hehehe, Welcome. Ban khaile amar kono dos nai :) ... ")
@@ -171,7 +165,7 @@ else:
 
         cook = input()
 
-        print("\n Enter user Agent : \n" )
+        print("\n Enter user Agent : \n")
 
         agent = input()
 
